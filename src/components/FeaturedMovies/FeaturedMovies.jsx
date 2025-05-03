@@ -28,7 +28,13 @@ function FeaturedMovies() {
     fetchFeaturedMovies();
   }, []);
 
-  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (loading) {
+    return <div className="text-center py-10 flex justify-center my-30">
+            <span className="loading loading-spinner loading-xl"></span>
+            <span className="loading loading-spinner loading-xl"></span>
+            <span className="loading loading-spinner loading-xl"></span>
+          </div>
+    };
   if (error) return <div className="text-center py-10 text-red-500">Error: {error}</div>;
     //hover:shadow-xl transition-shadow
   return (
@@ -74,7 +80,7 @@ function FeaturedMovies() {
           </div>
         ))}
       </div>
-      <div className='text-center'><Link to='/allmovies' className="btn btn-wide mt-6 btn-secondary">See all movies</Link></div>
+      <div className='text-center'><Link to='/movies' className="btn btn-wide mt-6 btn-secondary">See all movies</Link></div>
     </section>
   );
 }
