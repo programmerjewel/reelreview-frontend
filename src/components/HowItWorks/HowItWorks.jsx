@@ -2,17 +2,8 @@
 
 const HowItWorks = () => {
 
-  // How ReelReview Works
-  // Discover, Save, and Enjoy Movies Like Never Before
-
-  // 1. Explore Unlimited Movies
-  // Browse our curated collection of films across genres, ratings, and release years. Find hidden gems or popular blockbusters in seconds with smart search and filters.
-
-  // 2. Personalize Your Experience
-  // Save favorites to your watchlist, rate movies you’ve watched, and get tailored recommendations based on your taste. Your profile evolves as you engage.
-
-  // 3. Stream or Share Instantly
-  // Watch directly on our platform (if applicable) or get links to streaming services. Share reviews with our community and see what’s trending.
+ 
+  
   const steps = [
     {
       icon: '🔍',  // or <SearchIcon className="w-6 h-6" />
@@ -40,9 +31,9 @@ const HowItWorks = () => {
       </p>
       <div className="grid grid-cols-3 gap-6">
         {
-          steps.map(item=>
+          steps.map((item, index)=>
             (
-              <div key={item.index} className="p-4 border border-gray-500 flex flex-col items-center">
+              <div key={index} className="p-4 border border-gray-500 flex flex-col items-center">
                 <span className="text-3xl">{item.icon}</span>
                 <h3 className="font-semibold text-lg">{item.title}</h3>
                 <p>{item.text}</p>
