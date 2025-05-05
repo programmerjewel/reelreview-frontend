@@ -1,22 +1,50 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { RiDeleteBin5Fill } from "react-icons/ri";
+import { BsFillBookmarkStarFill } from "react-icons/bs";
+import AuthContext from "../context/AuthContext";
 
 const MovieDetail = () => {
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/movies/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setMovie(data);
-        setLoading(false);
-      });
-  }, [id]);
+    const fetchMovieDetailsAndCheckFavorite = async () => {
+      setLoading(true);
+      try {
+        const movieResponse = await fetch(`http://localhost:3000/movies/${id}`);
+        if (!movieResponse.ok) {
+          throw new Error(`Failed to fetch movie details: ${movieResponse.status}`);
+        }
+        const movieData = await movieResponse.json();
+        setMovie(movieData);
 
+        if (user?.email && movieData?._id) {
+          const favoritesResponse = await fetch(`http://localhost:3000/favourites?userEmail=${user.email}`);
+          if (!favoritesResponse.ok) {
+            throw new Error(`Failed to fetch favorites: ${favoritesResponse.status}`);
+          }
+          const favorites = await favoritesResponse.json();
+          const alreadyFavorite = favorites.some(fav => fav.movieId === movieData._id);
+          setIsFavorite(alreadyFavorite);
+        } else {
+          setIsFavorite(false);
+        }
+      } catch (error) {
+        console.error("Error fetching details or checking favorite:", error);
+        // Optionally set an error state here
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovieDetailsAndCheckFavorite();
+  }, [id, user?.email]); // Only depend on id and user?.email
 
   const handleDelete = (movieId) => {
     Swal.fire({
@@ -38,7 +66,7 @@ const MovieDetail = () => {
               title: "Deleted!",
               text: "The movie has been deleted.",
               icon: "success",
-              timer: 2500, // Automatically close after 1.5 seconds
+              timer: 2500,
               showConfirmButton: false
             }).then(() => {
               navigate('/movies');
@@ -56,6 +84,70 @@ const MovieDetail = () => {
     });
   };
 
+  const handleFavourites = (movieData) => {
+    if (isFavorite) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Already in Favourites!',
+        text: 'This movie is already in your favorites list.',
+        timer: 2000,
+      });
+      return;
+    }
+
+    fetch('http://localhost:3000/favourites', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        movieId: movieData._id,
+        userEmail: user.email,
+        movieTitle: movieData.movieTitle,
+        moviePoster: movieData.moviePoster,
+        genre: movieData.genre,
+        duration: movieData.duration,
+        releaseYear: movieData.releaseYear,
+        rating: movieData.rating,
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.insertedId) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Added to Favourites!',
+            showConfirmButton: false,
+            timer: 500,
+          })
+          .then(() => setIsFavorite(true));
+        } 
+        else if (data.message === 'Movie is already in your favorites') {
+          Swal.fire({
+            icon: 'info',
+            title: 'Already in Favourites!',
+            text: 'This movie is already in your favorites list.',
+            timer: 500,
+          });
+          setIsFavorite(true);
+        } 
+        else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong while adding to favorites!',
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Error adding to favorites:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong while adding to favorites!',
+        });
+      });
+  };
 
   if (loading) return <div className="text-center p-8">Loading movie details...</div>;
   if (!movie) return <div className="text-center p-8">No movie data found</div>;
@@ -87,17 +179,21 @@ const MovieDetail = () => {
           </div>
           <p className="text-gray-700">{movie.summaryTxt}</p>
           <div className="flex gap-4 mt-4">
-            <Link to="#" className="btn btn-primary">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path fillRule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5z" />
-              </svg>
-              Add to Favourites
-            </Link>
             <button
-              onClick={() => handleDelete(movie._id)} className="btn btn-secondary flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
-              </svg>
-              Delete Movie</button>
+              className={`btn ${isFavorite ? 'btn-disabled' : 'btn-primary'} flex items-center gap-1`}
+              onClick={() => handleFavourites(movie)}
+              disabled={isFavorite}
+            >
+              <BsFillBookmarkStarFill />
+              {isFavorite ? 'Added to Favourites' : 'Add to Favourites'}
+            </button>
+            <Link
+              onClick={() => handleDelete(movie._id)}
+              className="btn btn-secondary flex items-center gap-1"
+            >
+              <RiDeleteBin5Fill />
+              Delete Movie
+            </Link>
           </div>
         </div>
       </div>

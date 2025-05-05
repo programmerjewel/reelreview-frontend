@@ -40,17 +40,18 @@ const AllMovies = () => {
   return (
     <main className='w-11/12 mx-auto my-10'>
       <h2 className='text-3xl text-center font-bold my-6'>All Movies</h2>
-      <div className='grid grid-cols-3 gap-4'>
+      <div className='grid grid-cols-3 gap-6'>
         {
           movies.map(movie => (
-            <div key={movie._id} className='border border-red-600 p-6 rounded-md'>
-              <h3 className='text-lg font-semibold'>{movie.movieTitle}</h3>
-              <p>{movie.genre}</p>
-              <p>{}</p>
-              <p></p>
-              <p></p>
-              <img src={movie.moviePoster} className='' alt="" />
-              <Link className='btn btn-secondary mt-6' to={`/movies/${movie._id}`}>Details</Link>
+            <div key={movie._id} className='p-4 border border-gray-300 rounded-md flex flex-col gap-4'>
+              <img src={movie.moviePoster} className='w-full h-90 object-cover rounded-md' alt="" />
+              <div className=''>
+                <h3 className='text-xl font-semibold mb-2'>{movie.movieTitle}</h3>
+                <p><strong>Genre: </strong>{movie.genre}</p>
+                <p><strong>Release Year: </strong>{movie.releaseYear}</p>
+                <p><strong>Rating: </strong>{movie.rating}/10</p>
+                <p className='line-clamp-3'>{movie.summaryTxt}</p>
+                <Link className='btn btn-primary mt-3' to={`/movies/${movie._id}`}>Details</Link></div>
             </div>
           ))
         }

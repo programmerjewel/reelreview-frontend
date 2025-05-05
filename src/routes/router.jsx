@@ -7,6 +7,8 @@ import MovieDetail from "../pages/MovieDetail";
 import AddMovie from "../pages/AddMovie";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
+import UpdateProfile from "../pages/Auth/UpdateProfile";
+import FavouriteMovies from "../pages/FavouriteMovies";
 const router = createBrowserRouter([
   {
     path: '/',
@@ -36,7 +38,15 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register/>
-      }
+      },
+      {
+        path: '/favourites',
+        element: <FavouriteMovies/>,
+      },
+      {
+        path: '/update-profile',
+        element: <UpdateProfile/>
+      },
     ]
   }
 ])
