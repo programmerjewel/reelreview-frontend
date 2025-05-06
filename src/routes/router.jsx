@@ -9,6 +9,7 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import UpdateProfile from "../pages/Auth/UpdateProfile";
 import FavouriteMovies from "../pages/FavouriteMovies";
+import PrivateRoute from "../Provider/PrivateRoute";
 const router = createBrowserRouter([
   {
     path: '/',
@@ -25,11 +26,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/addmovie',
-        element: <AddMovie/>
+        element: <PrivateRoute><AddMovie/></PrivateRoute>,
       },
       {
         path: '/movies/:id',
-        element: <MovieDetail/>,
+        element: <PrivateRoute><MovieDetail/></PrivateRoute>,
       },
       {
         path: '/login',
@@ -41,7 +42,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/favourites',
-        element: <FavouriteMovies/>,
+        element: <PrivateRoute><FavouriteMovies/></PrivateRoute>,
       },
       {
         path: '/update-profile',

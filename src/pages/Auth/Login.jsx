@@ -8,7 +8,6 @@ const Login = () => {
   const { logInWithGoogle, loginUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state || '/';
 
   
   const handleLogin = e => {
@@ -21,7 +20,7 @@ const Login = () => {
     loginUser(email, password)
       .then(() => {
         console.log('Successfully logged in with email/password!');
-        navigate(from)
+        navigate(location.state.from)
         // You might want to redirect here
       })
       .catch(error => {
@@ -34,7 +33,7 @@ const Login = () => {
       .then(() => {
         console.log('Successfully logged in with Google!');
         // You might want to redirect here
-        navigate(from)
+        navigate(location.state.from)
       })
       .catch(error => {
         console.error('Google login error:', error.message);
