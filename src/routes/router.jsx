@@ -10,6 +10,7 @@ import Register from "../pages/Auth/Register";
 import UpdateProfile from "../pages/Auth/UpdateProfile";
 import FavouriteMovies from "../pages/FavouriteMovies";
 import PrivateRoute from "../Provider/PrivateRoute";
+import UpdateMovie from "../pages/UpdateMovie";
 const router = createBrowserRouter([
   {
     path: '/',
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: '/addmovie',
         element: <PrivateRoute><AddMovie/></PrivateRoute>,
+      },
+      {
+        path: '/update/:id',
+        element: <UpdateMovie/>,
       },
       {
         path: '/movies/:id',

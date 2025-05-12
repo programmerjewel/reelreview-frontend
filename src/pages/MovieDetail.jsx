@@ -187,6 +187,7 @@ const MovieDetail = () => {
               <BsFillBookmarkStarFill />
               {isFavorite ? 'Added to Favourites' : 'Add to Favourites'}
             </button>
+            <Link to={`/update/${id}`} className="btn btn-outline">Update Info</Link>
             <Link
               onClick={() => handleDelete(movie._id)}
               className="btn btn-secondary flex items-center gap-1"

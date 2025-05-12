@@ -24,14 +24,14 @@ const HowItWorks = () => {
       <h2 className="text-3xl font-bold mb-3 text-center">
         How ReelReview Works
       </h2>
-      <p className="text-lg text-gray-800 text-center">
+      <p className="text-lg text-center">
         Your personalized movie journey in three simple steps
       </p>
       <div className="grid grid-cols-3 gap-6 mt-6">
         {
           steps.map((item, index)=>
             (
-              <div key={index} className="p-8 border border-gray-200 dark:border-green-600 rounded-lg flex flex-col items-center gap-2">
+              <div key={index} className="p-8 border border-gray-200 dark:border-red-500 rounded-lg flex flex-col items-center gap-2">
                 <span className="text-3xl">{item.icon}</span>
                 <h3 className="font-semibold text-lg">{item.title}</h3>
                 <p className="text-center">{item.text}</p>

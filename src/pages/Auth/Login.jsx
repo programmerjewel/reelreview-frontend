@@ -20,7 +20,7 @@ const Login = () => {
     loginUser(email, password)
       .then(() => {
         console.log('Successfully logged in with email/password!');
-        navigate(location.state.from)
+        navigate(location.state?.from || '/');
         // You might want to redirect here
       })
       .catch(error => {
@@ -32,8 +32,7 @@ const Login = () => {
     logInWithGoogle()
       .then(() => {
         console.log('Successfully logged in with Google!');
-        // You might want to redirect here
-        navigate(location.state.from)
+        navigate(location.state?.from || '/');
       })
       .catch(error => {
         console.error('Google login error:', error.message);
