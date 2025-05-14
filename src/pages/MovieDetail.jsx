@@ -66,7 +66,7 @@ const MovieDetail = () => {
               title: "Deleted!",
               text: "The movie has been deleted.",
               icon: "success",
-              timer: 2500,
+              timer: 1000,
               showConfirmButton: false
             }).then(() => {
               navigate('/movies');
@@ -90,7 +90,7 @@ const MovieDetail = () => {
         icon: 'info',
         title: 'Already in Favourites!',
         text: 'This movie is already in your favorites list.',
-        timer: 2000,
+        timer: 1500,
       });
       return;
     }
@@ -118,7 +118,7 @@ const MovieDetail = () => {
             icon: 'success',
             title: 'Added to Favourites!',
             showConfirmButton: false,
-            timer: 500,
+            timer: 1000,
           })
           .then(() => setIsFavorite(true));
         } 
@@ -127,7 +127,7 @@ const MovieDetail = () => {
             icon: 'info',
             title: 'Already in Favourites!',
             text: 'This movie is already in your favorites list.',
-            timer: 500,
+            timer: 1000,
           });
           setIsFavorite(true);
         } 
@@ -149,8 +149,11 @@ const MovieDetail = () => {
       });
   };
 
-  if (loading) return <div className="text-center p-8">Loading movie details...</div>;
-  if (!movie) return <div className="text-center p-8">No movie data found</div>;
+  if (loading) return <div className="text-center flex flex-col gap-3 justify-center items-center my-12">
+        <p>Loading</p>
+        <span className="loading loading-spinner loading-xl"></span>
+      </div>;
+  if (!movie) return <div className="flex flex-col gap-3 justify-center items-center my-12">No movie data found</div>;
 
   return (
     <main className="w-8/12 mx-auto my-10">

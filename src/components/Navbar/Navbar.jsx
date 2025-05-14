@@ -2,11 +2,12 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import ThemeContext from "../../context/ThemeContext";
+import logo from '../../../public/logo.png'
 
 const Navbar = () => {
   const { user, logoutUser } = useContext(AuthContext);
   const  {isDark, toggleTheme} = useContext(ThemeContext);
-  console.log(user);
+  
   const handleLogout = () => {
     logoutUser();
   };
@@ -22,13 +23,19 @@ const Navbar = () => {
         <Link to="/addmovie">Add Movie</Link>
       </li>
       <li>
-        <Link to="/favourites">My Favourites</Link>
+        <Link to='/fan-review'>Fan Review</Link>
       </li>
+      {
+        user && <li>
+          <Link to="/favourites">My Favourites</Link>
+        </li>
+      }
+      
     </>
   );
 
   return (
-    <nav className="navbar bg-base-100 shadow-sm">
+    <nav className="navbar shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -56,7 +63,7 @@ const Navbar = () => {
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
-          ReelReview
+          <img src={logo} className="" alt="" />ReelReview
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -64,7 +71,7 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end flex gap-4">
-      <button onClick={toggleTheme} className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700" >
+      <button onClick={toggleTheme} className="p-2 rounded-lg font-medium bg-gray-200 dark:bg-gray-700" >
           {isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}
       </button>
     {

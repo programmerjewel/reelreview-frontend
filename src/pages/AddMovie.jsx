@@ -202,7 +202,7 @@ const AddMovie = () => {
             </div>
             <div>
               <label className="label">Rating</label>
-              <Rating
+              <div><Rating
               iconsCount={10}
                 onClick={handleRatingClick}
                 ratingValue={rating} // Use the direct 'rating' state
@@ -215,7 +215,8 @@ const AddMovie = () => {
                 className="star-rating"
                 SVGstyle={{ display: "inline-block" }}
                 numStars={10} // Set the total number of stars to 10
-              />
+              /></div>
+              
               {errors.rating && (
                 <p className="text-red-500 text-sm mt-1">{errors.rating}</p>
               )}

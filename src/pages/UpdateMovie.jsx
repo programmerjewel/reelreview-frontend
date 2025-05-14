@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Rating } from "react-simple-star-rating";
+import Swal from "sweetalert2";
+
 
 const UpdateMovie = () => {
-  const { id } = useParams(); // Get the movie ID from the route parameters
+  const { id } = useParams();
+  const [rating, setRating] = useState(0);
   const navigate = useNavigate();
   const [movieData, setMovieData] = useState(null);
   const [errors, setErrors] = useState({});
+
+
+  const handleRatingClick = (rate) => {
+    setRating(rate);
+  };
 
   useEffect(() => {
     // Fetch the movie data based on the ID when the component mounts
@@ -17,6 +26,8 @@ const UpdateMovie = () => {
         }
         const data = await response.json();
         setMovieData(data);
+        setRating(data.rating || 0);
+
       } catch (error) {
         console.error("Error fetching movie:", error);
         // Optionally redirect to an error page or display an error message
@@ -27,7 +38,7 @@ const UpdateMovie = () => {
   }, [id]);
 
   if (!movieData) {
-    return <div>Loading movie details...</div>; // Or a more informative loading state
+    return <div className="min-h-screen flex flex-col justify-center items-center">Loading<span class="loading loading-spinner loading-lg"></span></div>; // Or a more informative loading state
   }
 
 
@@ -61,6 +72,20 @@ const UpdateMovie = () => {
       newErrors.duration = "Duration must be at least 60 minutes";
     }
 
+    // Year validation
+    if (!getValue('releaseYear')) {
+      newErrors.releaseYear = "Release year is required";
+    } else if (parseInt(getValue('releaseYear')) < 1888) {
+      newErrors.releaseYear = "First movie was made in 1888!";
+    } else if (parseInt(getValue('releaseYear')) > new Date().getFullYear() + 2) {
+      newErrors.releaseYear = "Year cannot be in the far future";
+    }
+
+    // Rating validation
+    if (rating <= 0) {
+      newErrors.rating = "Please rate the movie";
+    }
+
     // Summary validation
     if (!getValue('summary')?.trim()) {
       newErrors.summary = "Summary is required";
@@ -82,6 +107,8 @@ const UpdateMovie = () => {
         moviePoster: formElements.moviePoster.value,
         genre: formElements.genre.value,
         duration: formElements.duration.value,
+        releaseYear: formElements.releaseYear.value,
+        rating: rating,
         summaryTxt: formElements.summary.value,
       };
 
@@ -95,16 +122,28 @@ const UpdateMovie = () => {
         });
 
         if (response.ok) {
-          alert('Movie information updated successfully!');
+          Swal.fire({
+            title: "Updated!",
+            text: "Movie successfully updated",
+            icon: "success"
+          });
           navigate('/'); // Redirect to the movie list page after successful update
         } else {
           const errorData = await response.json();
           console.error("Error updating movie:", errorData);
-          alert('Failed to update movie information.');
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to update movie information.',
+            icon: 'error',
+          })
         }
       } catch (error) {
         console.error("Error updating movie:", error);
-        alert('An unexpected error occurred while updating.');
+        Swal.fire({
+          title: 'Error!',
+          text: 'An unexpected error occurred while updating.',
+          icon: 'error',
+        })
       }
     }
   };
@@ -180,6 +219,46 @@ const UpdateMovie = () => {
               />
               {errors.duration && (
                 <p className="text-red-500 text-sm mt-1">{errors.duration}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div>
+              <label className="label">Release Year</label>
+              <input
+                type="number"
+                className={`input w-full ${errors.releaseYear ? "border-red-500" : ""}`}
+                placeholder="2025"
+                name="releaseYear"
+                defaultValue={movieData.releaseYear}
+                min="1888"
+                max={new Date().getFullYear() + 2}
+              />
+              {errors.releaseYear && (
+                <p className="text-red-500 text-sm mt-1">{errors.releaseYear}</p>
+              )}
+            </div>
+            <div>
+              <label className="label">Rating</label>
+              <div><Rating
+                initialValue={movieData?.rating}
+                iconsCount={10}
+                onClick={handleRatingClick}
+                ratingValue={rating} // Use the direct 'rating' state
+                allowHalfIcon
+                allowFraction
+                size={30}
+                transition
+                fillColor="palegreen"
+                emptyColor="gray"
+                className="star-rating"
+                SVGstyle={{ display: "inline-block" }}
+                numStars={10} // Set the total number of stars to 10
+              /></div>
+              
+              {errors.rating && (
+                <p className="text-red-500 text-sm mt-1">{errors.rating}</p>
               )}
             </div>
           </div>
