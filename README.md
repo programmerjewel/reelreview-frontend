@@ -1,12 +1,55 @@
-# React + Vite
+# ReelReview - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![ReelReview Screenshot](https://freeimage.host/i/FuZ7eHJ)
 
-Currently, two official plugins are available:
+The frontend of ReelReview, a movie review platform built with React and Tailwind CSS and DaisyUI, featuring interactive movie browsing, user authentication, and personalized favorites.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### 🎥 Movie 
+- Detailed movie pages with:
+  - Reviews and star ratings
+  - Movie metadata (year, runtime, genre)
+  - Short descriptions
+- Responsive grid layout for all movies
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 🔐 User Authentication
+- Firebase-powered login/register system
+- Protected routes for authenticated users
+- User profile management:
+  - Update username
+  - Change profile image
+
+### ❤️ Personalization
+- Add/remove movies to favorites
+- "My Favorites" page to view saved movies
+- Fan review section for user-generated content
+
+### 🛠️ Movie Management (Authenticated Users)
+- Add new movies to the platform
+- View movie details on detail page
+- Edit existing movie information
+- Delete movies (with confirmation)
+
+### 📱 Responsive Design
+- Mobile-first approach
+- Fully responsive across all device sizes
+- Adaptive navigation and layouts
+
+## Technologies Used
+
+- React 19
+- Tailwind CSS
+- Swiper.js
+- React Hook Form
+- SweetAlert2
+- React Simple Star Rating
+- React Fast Marquee
+- React Icons
+- React Router DOM (v7)
+- Firebase Authentication
+
+
+## Live Link:
+[ReelReview landing page](https://assignment-10-36d80.web.app/)
+
