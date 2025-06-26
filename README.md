@@ -1,6 +1,6 @@
 # ReelReview - Frontend
 
-![ReelReview Screenshot](https://freeimage.host/i/FuZ7eHJ)
+![ReelReview Screenshot](https://i.ibb.co/ZpN0xj2K/assignment-10-36d80-web-app.png)
 
 The frontend of ReelReview, a movie review platform built with React and Tailwind CSS and DaisyUI, featuring interactive movie browsing, user authentication, and personalized favorites.
 
