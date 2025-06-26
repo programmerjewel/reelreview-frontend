@@ -41,7 +41,7 @@ const Login = () => {
 
   return (
     <form onSubmit={handleLogin}> {/* Added onSubmit handler */}
-      <fieldset className="fieldset p-4 w-4/12 mx-auto my-8">
+      <fieldset className="fieldset p-4 md:w-4/12 w-9/12 mx-auto my-8">
         <legend className="text-3xl font-bold text-center">Login</legend>
 
         <label className="label">Email</label>
@@ -50,13 +50,13 @@ const Login = () => {
         <label className="label">Password</label>
         <input type="password" className="input w-full" placeholder="Password" name="password" required />
 
-        <button type="submit" className="btn btn-neutral my-4 btn-wide mx-auto">Login</button>
+        <button type="submit" className="btn btn-neutral my-4 md:btn-wide mx-auto">Login</button>
         
         {/* Added onClick handler and type="button" */}
         <button 
           type="button" 
           onClick={handleGoogleLogin} 
-          className="btn btn-neutral btn-wide mx-auto"
+          className="btn btn-neutral md:btn-wide mx-auto"
         >
           <img src={googleIcon} className="w-5 aspect-square" alt="" />
           Login with Google

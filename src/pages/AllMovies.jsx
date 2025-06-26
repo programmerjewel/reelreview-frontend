@@ -12,7 +12,7 @@ const AllMovies = () => {
     const fetchMovies = async () => {
       try {
         setLoading(true);
-        let url = 'http://localhost:3000/movies';
+        let url = 'https://reelreview-backend.vercel.app/movies';
         
         // Add search parameter if searchTerm exists
         if (searchTerm) {
@@ -41,7 +41,7 @@ const AllMovies = () => {
 
   if (loading) {
     return (
-      <div className="text-center py-10 flex flex-col gap-3 justify-center items-center my-12">
+      <div className="text-center py-10 flex flex-col gap-3 justify-center items-center my-25">
         <p>Loading</p>
         <span className="loading loading-spinner loading-xl"></span>
       </div>
@@ -52,7 +52,7 @@ const AllMovies = () => {
 
   return (
     <main className="w-11/12 mx-auto my-10">
-      <h2 className="text-3xl text-center font-bold my-6">All Movies</h2>
+      <h2 className="text-3xl text-center font-bold my-6 text-blue-950 dark:text-white">All Movies</h2>
       
       {/* Search Input */}
       <div className="flex justify-center items-center my-6">
@@ -71,20 +71,18 @@ const AllMovies = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {movies.length > 0 ? (
           movies.map((movie) => (
-            <div key={movie._id} className="p-4 border border-gray-300 rounded-md flex flex-col gap-4">
+            <div key={movie._id} className="p-3 border border-gray-300 dark:border-gray-600 rounded-md flex flex-col gap-4">
               <img
                 src={movie.moviePoster}
-                className="w-full h-96 object-cover rounded-md"
+                className="w-full h-96 object-cover"
                 alt={movie.movieTitle}
                 loading="lazy"
               />
               <div>
-                <h3 className="text-xl font-semibold mb-2">{movie.movieTitle}</h3>
-                <p><strong>Genre: </strong>{movie.genre}</p>
-                <p><strong>Release Year: </strong>{movie.releaseYear}</p>
-                <p><strong>Rating: </strong>{movie.rating}/10</p>
-                <p className="line-clamp-3">{movie.summaryTxt}</p>
-                <Link className="btn btn-primary mt-3" to={`/movies/${movie._id}`}>
+                <h3 className="text-xl text-blue-950 font-bold mb-2">{movie.movieTitle}</h3>
+                <p className='italic'>{movie.genre}</p>
+                <p className="line-clamp-3 my-4 font-light text-sm">{movie.summaryTxt}</p>
+                <Link className="font-medium bg-red-500 text-white shadow-none border-none hover:bg-red-700 transition duration-300 inline-block p-2.5 rounded-sm" to={`/movies/${movie._id}`}>
                   Details
                 </Link>
               </div>

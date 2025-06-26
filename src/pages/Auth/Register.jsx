@@ -80,19 +80,19 @@ const Register = () => {
 
   return (
     <main className="flex justify-center">
-      <form className="fieldset w-xs p-4" onSubmit={handleUserRegister}>
+      <form className="fieldset w-md p-4" onSubmit={handleUserRegister}>
         <legend className="text-center text-3xl font-semibold">Register</legend>
 
         <label className="label">Name</label>
-        <input type="text" className="input" placeholder="name" name='name' />
+        <input type="text" className="input w-full" placeholder="name" name='name' />
         {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
 
         <label className="label">Image URL</label>
-        <input type="url" className="input" placeholder="image url" name='photourl' />
+        <input type="url" className="input w-full" placeholder="image url" name='photourl' />
         {errors.photourl && <p className="text-red-500 text-sm mt-1">{errors.photourl}</p>}
 
         <label className="label">Email</label>
-        <input type="email" className="input" placeholder="email" name='email'/>
+        <input type="email" className="input w-full" placeholder="email" name='email'/>
         {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
 
         <label className="label">Password</label>
@@ -131,8 +131,8 @@ const Register = () => {
         </div>
         {errors.conpassword && <p className="text-red-500 text-sm mt-1">{errors.conpassword}</p>}
 
-        <button className="btn btn-neutral mt-4">Register</button>
-        <p className="text-md">Already have an account? Please <Link className='font-medium underline' to='/login'>Log In</Link> here.</p>
+        <button className="btn w-2/5 mx-auto mt-4">Register</button>
+        <p className="text-md text-center mt-3">Already have an account? Please <Link className='font-semibold text-md underline hover:text-blue-500 hover:no-underline' to='/login'>Log In</Link> here.</p>
       </form>
     </main>
   );

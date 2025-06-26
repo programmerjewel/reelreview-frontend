@@ -80,17 +80,10 @@ const AddMovie = () => {
         summaryTxt: formElements.summary.value,
       };
 
-    //   "moviePoster": "https://i.ibb.co.com/Kc6b0vyv/captainamericabraveworld.jpg",
-    // "movieTitle": "Captain America: Brave New World",
-    // "genre": "Sci-Fi",
-    // "duration": "155",
-    // "releaseYear": "2024",
-    // "rating": "9.5",
-    // "summaryTxt": "Sam Wilson fully embraces his role as the new Captain America in this action-packed sequel. When a global conspiracy threatens world stability, he must assemble a new team of heroes to prevent catastrophe. The film explores themes of legacy and responsibility while delivering thrilling superhero action sequences."
 
 
       console.log("Submitting:", movieData);
-      fetch('http://localhost:3000/movies',{
+      fetch('https://reelreview-backend.vercel.app/movies',{
         method: "POST",
         headers:{
           'Content-Type' : 'application/json'
@@ -100,15 +93,9 @@ const AddMovie = () => {
       .then(res => res.json())
       .then((data)=>{
         if(data.insertedId > 0){
-          alert('data inserted successfully!')
+          alert('data inserted successfully!');
         }
       })
-      // Here you would make your API call:
-      // fetch('/api/movies', {
-      //  method: 'POST',
-      //  headers: { 'Content-Type': 'application/json' },
-      //  body: JSON.stringify(movieData)
-      // })
     }
   };
 
@@ -116,7 +103,7 @@ const AddMovie = () => {
     <main>
       <form onSubmit={handleSubmit}>
         <fieldset className="fieldset p-4 w-11/12 mx-auto">
-          <legend className="fieldset-legend mx-auto text-3xl font-bold">
+          <legend className="fieldset-legend mx-auto text-3xl font-bold text-blue-950 dark:text-white">
             Add Movie
           </legend>
 
@@ -210,7 +197,7 @@ const AddMovie = () => {
                 allowFraction
                 size={30}
                 transition
-                fillColor="palegreen"
+                fillColor="orange"
                 emptyColor="gray"
                 className="star-rating"
                 SVGstyle={{ display: "inline-block" }}
@@ -237,7 +224,7 @@ const AddMovie = () => {
 
           <button
             type="submit"
-            className="btn btn-neutral mt-6 w-full md:w-auto"
+            className="btn bg-red-500 text-white transtion-all-300 hover:bg-red-700 mt-6 w-full md:w-auto"
           >
             Add Movie
           </button>

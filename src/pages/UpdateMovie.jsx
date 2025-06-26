@@ -20,7 +20,7 @@ const UpdateMovie = () => {
     // Fetch the movie data based on the ID when the component mounts
     const fetchMovie = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/movies/${id}`);
+        const response = await fetch(`https://reelreview-backend.vercel.app/movies/${id}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -113,7 +113,7 @@ const UpdateMovie = () => {
       };
 
       try {
-        const response = await fetch(`http://localhost:3000/movies/${id}`, {
+        const response = await fetch(`https://reelreview-backend.vercel.app/movies/${id}`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json',

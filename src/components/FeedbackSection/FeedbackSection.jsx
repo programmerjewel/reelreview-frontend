@@ -23,7 +23,7 @@ const FeedbackSection = () => {
       id: 3,
       name: "Aisha M.",
       role: "Film Student",
-      text: "Community reviews helped me understand cinematography techniques.",
+      text: "Community reviews helped me understand cinematography.",
       rating: 5,
       avatar: "https://randomuser.me/api/portraits/women/41.jpg"
     },
@@ -38,10 +38,10 @@ const FeedbackSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-base-200" id="testimonials">
+    <section className="my-16">
       <div className="">
-        <h2 className="text-3xl font-bold text-center mb-2">Community Feedback</h2>
-        <p className="text-center mb-12 text-lg opacity-80">
+        <h2 className="text-4xl font-bold text-center mb-2 text-blue-950 dark:text-white">Community Feedback</h2>
+        <p className="text-center mb-8 opacity-80">
           Hear from real users who love ReelReview
         </p>
 
@@ -52,7 +52,7 @@ const FeedbackSection = () => {
           {testimonials.map((item) => (
             <div 
               key={item.id} 
-              className="p-4 bg-gray-50 rounded-xl w-80 text-center border border-black mx-4"
+              className="p-4 dark:bg-gray-700 rounded-xl w-80 text-center border border-gray-200  dark:border-gray-600 mx-4"
             >
               <div className="flex items-center gap-4">
                 <div className="avatar">
@@ -73,14 +73,14 @@ const FeedbackSection = () => {
                     key={i}
                     type="radio" 
                     name={`rating-${item.id}`} 
-                    className="mask mask-star-2 bg-primary" 
+                    className="mask mask-star-2 bg-yellow-600" 
                     checked={i < item.rating}
                     readOnly
                   />
                 ))}
               </div>
               
-              <blockquote className="italic opacity-90">
+              <blockquote className="italic opacity-90 font-light">
                 "{item.text}"
               </blockquote>
             </div>

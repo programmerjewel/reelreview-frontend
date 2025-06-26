@@ -3,6 +3,8 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { BsFillBookmarkStarFill } from "react-icons/bs";
+import { FiEdit } from "react-icons/fi";
+
 import AuthContext from "../context/AuthContext";
 
 const MovieDetail = () => {
@@ -17,7 +19,7 @@ const MovieDetail = () => {
     const fetchMovieDetailsAndCheckFavorite = async () => {
       setLoading(true);
       try {
-        const movieResponse = await fetch(`http://localhost:3000/movies/${id}`);
+        const movieResponse = await fetch(`https://reelreview-backend.vercel.app/movies/${id}`);
         if (!movieResponse.ok) {
           throw new Error(`Failed to fetch movie details: ${movieResponse.status}`);
         }
@@ -25,7 +27,7 @@ const MovieDetail = () => {
         setMovie(movieData);
 
         if (user?.email && movieData?._id) {
-          const favoritesResponse = await fetch(`http://localhost:3000/favourites?userEmail=${user.email}`);
+          const favoritesResponse = await fetch(`https://reelreview-backend.vercel.app/favourites?userEmail=${user.email}`);
           if (!favoritesResponse.ok) {
             throw new Error(`Failed to fetch favorites: ${favoritesResponse.status}`);
           }
@@ -57,7 +59,7 @@ const MovieDetail = () => {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/movies/${movieId}`, {
+        fetch(`https://reelreview-backend.vercel.app/movies/${movieId}`, {
           method: "DELETE"
         })
           .then(res => res.json())
@@ -95,7 +97,7 @@ const MovieDetail = () => {
       return;
     }
 
-    fetch('http://localhost:3000/favourites', {
+    fetch('https://reelreview-backend.vercel.app/favourites', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -167,33 +169,28 @@ const MovieDetail = () => {
         </div>
         <div className="p-6 md:w-2/3">
           <h1 className="text-3xl font-bold mb-2">{movie.movieTitle}</h1>
-          <div className="flex gap-2 items-center mb-4">
-            <span className="bg-yellow-500 text-white px-3 py-1 rounded">
-              Rating: {movie.rating}/10
-            </span>
-            <span>{movie.releaseYear} • {movie.duration} mins</span>
+          <div className="mb-4 badge bg-gray-200 dark:bg-white/15 dark:text-white/80">
+            {movie.genre}
           </div>
-          <div className="mb-4">
-            {movie.genre.split(',').map((g, i) => (
-              <span key={i} className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                {g.trim()}
-              </span>
-            ))}
+          <div className="flex gap-2 mb-4 flex-col">
+            <span><strong>Released Year: </strong>{movie.releaseYear}</span>
+            <span><strong>Runtime: </strong>{movie.duration} mins</span>
+            <span><strong>Rating:</strong> {movie.rating}/10</span>
           </div>
-          <p className="text-gray-700">{movie.summaryTxt}</p>
-          <div className="flex gap-4 mt-4">
+          <p className="text-gray-700 dark:text-white font-light">{movie.summaryTxt}</p>
+          <div className="flex flex-wrap gap-4 mt-4">
             <button
-              className={`btn ${isFavorite ? 'btn-disabled' : 'btn-primary'} flex items-center gap-1`}
+              className={`btn ${isFavorite ? 'btn-disabled text-gray-800' : 'bg-blue-950 text-white'} flex items-center gap-1`}
               onClick={() => handleFavourites(movie)}
               disabled={isFavorite}
             >
               <BsFillBookmarkStarFill />
               {isFavorite ? 'Added to Favourites' : 'Add to Favourites'}
             </button>
-            <Link to={`/update/${id}`} className="btn btn-outline">Update Info</Link>
+            <Link to={`/update/${id}`} className="btn btn-outline"><FiEdit />Update Info</Link>
             <Link
               onClick={() => handleDelete(movie._id)}
-              className="btn btn-secondary flex items-center gap-1"
+              className="btn bg-red-500 flex items-center gap-1 text-white"
             >
               <RiDeleteBin5Fill />
               Delete Movie

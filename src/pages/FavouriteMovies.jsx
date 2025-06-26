@@ -15,7 +15,7 @@ const FavoriteMovie = () => {
         setLoading(true);
         setError(null);
         try {
-          const response = await fetch(`http://localhost:3000/favourites?userEmail=${user.email}`);
+          const response = await fetch(`https://reelreview-backend.vercel.app/favourites?userEmail=${user.email}`);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
@@ -48,7 +48,7 @@ const FavoriteMovie = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await fetch(`http://localhost:3000/favourites/${favoriteId}`, {
+          const response = await fetch(`https://reelreview-backend.vercel.app/favourites/${favoriteId}`, {
             method: "DELETE",
           });
           if (!response.ok) {
@@ -104,27 +104,27 @@ const FavoriteMovie = () => {
 
   return (
     <main className=" w-11/12 mx-auto my-10">
-      <h2 className="text-3xl font-bold mb-4 text-center">Your Favorite Movies</h2>
+      <h2 className="text-3xl font-bold mb-4 text-center text-blue-950 dark:text-white">Your Favorite Movies</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {favoriteMovies.map(favMovie => (
-          <div key={favMovie._id} className="border border-gray-300 rounded-md p-4 bg-gray-50">
+          <div key={favMovie._id} className="border border-gray-300 rounded-md p-4 bg-gray-50 dark:bg-gray-800 dark:border-gray-600">
             <img
               src={favMovie.moviePoster}
               className="h-60 w-full object-cover rounded-md mb-2"
             />
             <div className="flex flex-col gap-2">
               <h3 className="text-lg font-semibold">{favMovie.movieTitle}</h3>
-              <p className="text-gray-600 text-sm">Genre: {favMovie.genre}</p>
-              <p className="text-gray-600 text-sm">Duration: {favMovie.duration} mins</p>
-              <p className="text-gray-600 text-sm">Release Year: {favMovie.releaseYear}</p>
-              <p className="text-blue-500 text-sm">Rating: {favMovie.rating}/10</p>
+              <p className="text-gray-600 dark:text-white/80 text-sm">Genre: {favMovie.genre}</p>
+              <p className="text-gray-600 dark:text-white/80 text-sm">Duration: {favMovie.duration} mins</p>
+              <p className="text-gray-600 dark:text-white/80 text-sm">Release Year: {favMovie.releaseYear}</p>
+              <p className="text-gray-600 dark:text-white/80 text-sm">Rating: {favMovie.rating}/10</p>
             </div>
             
             <button
               onClick={() => handleDeleteFavorite(favMovie._id)}
-              className="btn mt-3 btn-info"
+              className="p-2.5 flex items-center gap-2 mt-3 bg-red-500 text-white rounded-md hover:bg-red-800 transition duration-300"
             >
-              <RiDeleteBin5Fill /> Delete Favorite
+              <RiDeleteBin5Fill /> Delete
             </button>
           </div>
         ))}

@@ -1,11 +1,11 @@
 // src/components/HeroSlider.jsx
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { Link } from 'react-router-dom';
 
 const HeroSlider = () => {
-  // Slide data (customize as needed)
   const slides = [
     {
       id: 1,
@@ -30,15 +30,43 @@ const HeroSlider = () => {
     },
   ];
 
+  // Custom Navigation Arrows
+  const CustomNavButtons = () => {
+    const swiper = useSwiper();
+    
+    return (
+      <div className="absolute inset-0 z-20 w-full h-full pointer-events-none">
+        <button
+          onClick={() => swiper.slidePrev()}
+          className="absolute left-0.5 md:left-3 top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-black/50 rounded-full md:p-3 p-1 backdrop-blur-sm transition duration-300 pointer-events-auto"
+          aria-label="Previous slide"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          onClick={() => swiper.slideNext()}
+          className="absolute right-0.5 md:right-3 top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-black/50 rounded-full md:p-3 p-1 backdrop-blur-sm transition duration-300 pointer-events-auto"
+          aria-label="Next slide"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    );
+  };
+
   return (
-    <div className="relative h-[80vh] w-full">
+    <div className="relative h-screen w-full">
       <Swiper
         modules={[Autoplay, Navigation]}
         spaceBetween={0}
         slidesPerView={1}
         loop={true}
         autoplay={{ delay: 5000 }}
-        navigation
+        navigation={false} // Disable default navigation
         className="h-full w-full"
       >
         {slides.map((slide) => (
@@ -48,23 +76,26 @@ const HeroSlider = () => {
               style={{ backgroundImage: `url(${slide.bgImage})` }}
             >
               {/* Backdrop Filter Blur + Dark Overlay */}
-              <div className="absolute inset-0 bg-black/30 backdrop-blur-xs"></div>
+              <div className="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
               
               {/* Slide Content (Centered) */}
-              <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
+                <h1 className="text-white text-3xl md:text-5xl font-bold">
                   {slide.title}
                 </h1>
-                <p className="text-lg md:text-xl text-gray-200 mb-8">
+                <p className="md:text-md text-gray-200 my-4">
                   {slide.description}
                 </p>
-                <button className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition duration-300">
+                <Link to='/movies' className="btn bg-red-500 border-none shadow-none text-white">
                   {slide.cta}
-                </button>
+                </Link>
               </div>
             </div>
           </SwiperSlide>
         ))}
+        
+        {/* Add Custom Navigation Arrows */}
+        <CustomNavButtons />
       </Swiper>
     </div>
   );
